@@ -16,11 +16,15 @@ Deliverable:
 python --version
 ```
 2. Create a virtual environment and download relevant packages
+windows:
 ```
 python -m venv venv
-windows:
-   venv\Scripts\activate 
+venv\Scripts\activate 
+pip install -r requirements.txt
+```
 unix: 
-   source venv/bin/activate
+```
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
