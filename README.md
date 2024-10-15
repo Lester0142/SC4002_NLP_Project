@@ -16,6 +16,7 @@ Deliverable:
 python --version
 ```
 2. Create a virtual environment and download relevant packages \
+
 windows:
 ```
 python -m venv venv
