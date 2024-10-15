@@ -1,5 +1,5 @@
 # SC4002_NLP_Project
-Deadline: Sunday, 10th November
+Deadline: Sunday, 10th November\
 Deliverable:
 1. Report (SC4002_G12.pdf)
    - cover page: all group members name & contributions
@@ -15,7 +15,7 @@ Deliverable:
 ```
 python --version
 ```
-2. Create a virtual environment and download relevant packages
+2. Create a virtual environment and download relevant packages \
 windows:
 ```
 python -m venv venv
