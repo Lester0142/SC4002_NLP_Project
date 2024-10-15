@@ -9,3 +9,17 @@ Deliverable:
    - explanation of sample output from code
 3. Zip File
    - Python source codes
+
+1. Ensure that system has python installed
+'''
+python --version
+'''
+2. Create a virtual environment and download relevant packages
+'''
+python -m venv venv
+windows:
+   venv\Scripts\activate 
+unix: 
+   source venv/bin/activate
+pip install -r requirements.txt
+'''
