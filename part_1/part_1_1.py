@@ -1,4 +1,4 @@
-from datasets import load_dataset
+from datasets import load_dataset, Dataset
 import gensim
 from gensim.test.utils import common_texts
 from gensim.models import Word2Vec
@@ -6,6 +6,7 @@ import gensim.downloader
 from text_preprocessing import preprocess_text
 from text_preprocessing import remove_stopword, to_lower, remove_email, remove_url, remove_punctuation, lemmatize_word
 import nltk
+import os
 import json
 
 dataset = load_dataset("rotten_tomatoes")
@@ -21,18 +22,26 @@ def dict_key_counter(lis,table):
 
 sentences = common_texts
 frequent_counter = {}
-nltk.download('punkt_tab')
+nltk.download('punkt_tab')  # download pre-trained Punkt tokenizer for sentence tokenization
 
 # preprocess_function_list = [to_lower, remove_email, remove_url, remove_punctuation, lemmatize_word, remove_stopword]
 preprocess_function_list = [to_lower, remove_email, remove_url, remove_punctuation, lemmatize_word]
 
+tokenised_train_data = []
+
 for data in train_dataset:
     sentence = data['text']
+    label = data['label']
     tokens = preprocess_text(sentence,preprocess_function_list)
     tokens = list(tokens.split())
     dict_key_counter(tokens,frequent_counter)
-
+    tokenised_train_data.append({'text':tokens,'label':label})
     sentences.append(tokens)
+
+tokenised_train_dataset = Dataset.from_dict({'text': [item['text'] for item in tokenised_train_data], 'label': [item['label'] for item in tokenised_train_data]})
+# Save tokenized dataset
+tokenised_train_dataset.save_to_disk("tokenised_train_dataset")
+
 
 train_vocab_list = list(frequent_counter.keys())
 frequent_counter = sorted(frequent_counter.items(),key=lambda x:x[1],reverse=True)
