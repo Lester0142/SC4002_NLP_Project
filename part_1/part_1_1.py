@@ -64,6 +64,7 @@ model = Word2Vec.load("word2vec.model")
 
 #pre-trained
 glove_vectors = gensim.downloader.load('word2vec-google-news-300')
+#glove_vectors.save("model/word2vec-google-news-300.model")
 vector = glove_vectors['man']  # get numpy vector of a word
 #print(vector)
 sims = glove_vectors.most_similar('man', topn=10)  # get other similar words
@@ -83,3 +84,4 @@ common_vocab = list(set(train_vocab_list) & set(vocab_list))
 oov = list(set(train_vocab_list) - set(common_vocab))
 #print(oov)
 print("(Q1-B) ",len(oov))
+
