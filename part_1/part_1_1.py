@@ -7,6 +7,7 @@ from text_preprocessing import preprocess_text
 from text_preprocessing import remove_stopword, to_lower, remove_email, remove_url, remove_punctuation, lemmatize_word
 import nltk
 import json
+from oov import handle_oov
 
 dataset = load_dataset("rotten_tomatoes")
 train_dataset = dataset['train']
@@ -75,4 +76,10 @@ common_vocab = list(set(train_vocab_list) & set(vocab_list))
 oov = list(set(train_vocab_list) - set(common_vocab))
 #print(oov)
 print("(Q1-B) ",len(oov))
+
+for word in oov:
+    word2 = handle_oov(word)
+    print(word, word2, type(word), end = ' ')
+    vector = glove_vectors[word2]
+
 

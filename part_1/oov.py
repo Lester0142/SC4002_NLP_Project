@@ -5,18 +5,23 @@ import textblob
 from textblob import TextBlob
 
 
-def oov(word):
+def handle_oov(word):
     #spellcheck
     return str(TextBlob(word).correct())
 
 
 glove_vectors = gensim.downloader.load('word2vec-google-news-300')
-glove_vectors.save("model/word2vec-google-news-300.model")
+# glove_vectors.save("word2vec-google-news-300.model")
 
-word = input("input word : ")
+word = 'ottosallies'
+# word = input("input word : ")
 
 try:
     vector = glove_vectors[word]
+    print(vector)
 except KeyError:
     #oov
-    word = oov(word)
+    word = handle_oov(word)
+    print(word)
+    vector = glove_vectors[word]
+    print(vector)
