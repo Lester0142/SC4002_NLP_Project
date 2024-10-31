@@ -77,9 +77,9 @@ oov = list(set(train_vocab_list) - set(common_vocab))
 #print(oov)
 print("(Q1-B) ",len(oov))
 
-for word in oov:
-    word2 = handle_oov(word)
-    print(word, word2, type(word), end = ' ')
-    vector = glove_vectors[word2]
+# for word in oov:
+#     word2 = handle_oov(word)
+#     print(word, word2, type(word), end = ' ')
+#     vector = glove_vectors[word2]
 
 
