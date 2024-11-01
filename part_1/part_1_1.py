@@ -76,8 +76,14 @@ common_vocab = list(set(train_vocab_list) & set(vocab_list))
 oov = list(set(train_vocab_list) - set(common_vocab))
 #print(oov)
 print("(Q1-B) ",len(oov))
+with open('oov_words.txt','w', encoding='utf-8') as f:
+    for word in oov:
+        print(word, " ")
+        f.write(word + "\n")
+f.close()
 
 count = 0
+## Only 463 OOV words are handled buy the original OOV method
 # for word in oov:
 #     word2 = handle_oov(word)
 #     # print(word, word2, type(word), end = ' ')
