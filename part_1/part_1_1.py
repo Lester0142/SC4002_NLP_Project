@@ -54,8 +54,8 @@ with open('json.txt','w') as f:
 print("(Q1-A) ",len(frequent_counter))
 
 
-model = Word2Vec(sentences=sentences, vector_size=100, window=5, min_count=1, workers=4)
-model.save("word2vec.model")
+# model = Word2Vec(sentences=sentences, vector_size=100, window=5, min_count=1, workers=4)
+# model.save("word2vec.model")
 
 
 model = Word2Vec.load("word2vec.model")
@@ -66,7 +66,9 @@ model = Word2Vec.load("word2vec.model")
 glove_vectors = gensim.downloader.load('word2vec-google-news-300')
 #glove_vectors.save("model/word2vec-google-news-300.model")
 vector = glove_vectors['man']  # get numpy vector of a word
+print(vector.shape)
 #print(vector)
+
 sims = glove_vectors.most_similar('man', topn=10)  # get other similar words
 
 

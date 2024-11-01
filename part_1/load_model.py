@@ -1,4 +1,4 @@
-import gensim
+import gensim.downloader
 
 #other models
 #Too Large to push to github
