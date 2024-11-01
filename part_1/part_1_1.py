@@ -8,6 +8,7 @@ from text_preprocessing import remove_stopword, to_lower, remove_email, remove_u
 import nltk
 import os
 import json
+from oov import handle_oov
 
 dataset = load_dataset("rotten_tomatoes")
 train_dataset = dataset['train']
@@ -86,4 +87,20 @@ common_vocab = list(set(train_vocab_list) & set(vocab_list))
 oov = list(set(train_vocab_list) - set(common_vocab))
 #print(oov)
 print("(Q1-B) ",len(oov))
+with open('oov_words.txt','w', encoding='utf-8') as f:
+    for word in oov:
+        print(word, " ")
+        f.write(word + "\n")
+f.close()
+
+count = 0
+## Only 463 OOV words are handled buy the original OOV method
+# for word in oov:
+#     word2 = handle_oov(word)
+#     # print(word, word2, type(word), end = ' ')
+#     if word2 in glove_vectors:
+#         count += 1
+#     # vector = glove_vectors[word2]
+# print(count)
+
 
