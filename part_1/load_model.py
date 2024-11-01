@@ -1,4 +1,5 @@
 import gensim
+
 #other models
 #Too Large to push to github
 glove_vectors = gensim.downloader.load('word2vec-google-news-300')
