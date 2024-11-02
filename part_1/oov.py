@@ -42,11 +42,18 @@ def handle_oov(word):
 # oov_words = f.read().split("\n")
 # dict = {}
 
+# indices = set([1512, 1606, 1619])
 # for i, word in enumerate(oov_words):
-#     # print("{}.".format(i+1), word, end = " ")
-#     res = list(flatten(handle_oov(word)))
+#     print("{}.".format(i+1), word, end = " ")
+#     if i in indices:
+#         dict[word] = []
+#     try:
+#         res = list(flatten(handle_oov(word)))
+#     except:
+#         dict[word] = []
 #     # print(res)
 #     dict[word] = res if res is not None else []
+#     print(res)
 # f.close()
         
 # json_object = json.dumps(dict, indent = 4)

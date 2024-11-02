@@ -88,16 +88,17 @@ oov = list(set(train_vocab_list) - set(common_vocab))
 #print(oov)
 print("(Q1-B) ",len(oov))
 
-words = set()
-with open("oovMap.json", "w") as f:
-    dict = json.load(f)
+## CODE to be used later to encode OOV words in embedding layer
+# words = set()
+# with open("oovMap.json", "r") as f:
+#     dict = json.load(f)
 
-for i in dict:
-    values = dict[i]
-    for word in values:
-        words.add(word)
+# for i in dict:
+#     values = dict[i]
+#     for word in values:
+#         words.add(word)
 
-arr = [x for x in words if x not in train_vocab_list]
-print(len(arr))
-print(arr)
+# arr = [x for x in words if x not in train_vocab_list]
+# print(len(arr))
+# print(arr)
 
