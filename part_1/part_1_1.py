@@ -88,5 +88,7 @@ oov = list(set(train_vocab_list) - set(common_vocab))
 #print(oov)
 print("(Q1-B) ",len(oov))
 
+with open("oovMap.json", "w") as f:
+    d = json.load()
 
 
