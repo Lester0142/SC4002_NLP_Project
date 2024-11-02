@@ -38,17 +38,17 @@ def handle_oov(word):
     return None
           
 
-f = open("oov_words.txt", "r")
-oov_words = f.read().split("\n")
-dict = {}
+# f = open("oov_words.txt", "r")
+# oov_words = f.read().split("\n")
+# dict = {}
 
-for i, word in enumerate(oov_words):
-    # print("{}.".format(i+1), word, end = " ")
-    res = list(flatten(handle_oov(word)))
-    # print(res)
-    dict[word] = res if res is not None else []
-f.close()
+# for i, word in enumerate(oov_words):
+#     # print("{}.".format(i+1), word, end = " ")
+#     res = list(flatten(handle_oov(word)))
+#     # print(res)
+#     dict[word] = res if res is not None else []
+# f.close()
         
-json_object = json.dumps(dict, indent = 4)
-with open("oovMap.json", "w") as f:
-    f.write(json_object)
+# json_object = json.dumps(dict, indent = 4)
+# with open("oovMap.json", "w") as f:
+#     f.write(json_object)

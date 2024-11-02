@@ -39,9 +39,9 @@ for data in train_dataset:
     tokenised_train_data.append({'text':tokens,'label':label})
     sentences.append(tokens)
 
-tokenised_train_dataset = Dataset.from_dict({'text': [item['text'] for item in tokenised_train_data], 'label': [item['label'] for item in tokenised_train_data]})
-# Save tokenized dataset
-tokenised_train_dataset.save_to_disk("tokenised_train_dataset")
+# tokenised_train_dataset = Dataset.from_dict({'text': [item['text'] for item in tokenised_train_data], 'label': [item['label'] for item in tokenised_train_data]})
+# # Save tokenized dataset
+# tokenised_train_dataset.save_to_disk("tokenised_train_dataset")
 
 
 train_vocab_list = list(frequent_counter.keys())
@@ -59,18 +59,18 @@ print("(Q1-A) ",len(frequent_counter))
 # model.save("word2vec.model")
 
 
-model = Word2Vec.load("word2vec.model")
+# model = Word2Vec.load("word2vec.model")
 #vector = model.wv['computer']  # get numpy vector of a word
 #sims = model.wv.most_similar('america', topn=10)  # get other similar words
 
 #pre-trained
 glove_vectors = gensim.downloader.load('word2vec-google-news-300')
 #glove_vectors.save("model/word2vec-google-news-300.model")
-vector = glove_vectors['man']  # get numpy vector of a word
-print(vector.shape)
+# vector = glove_vectors['man']  # get numpy vector of a word
+# print(vector.shape)
 #print(vector)
 
-sims = glove_vectors.most_similar('man', topn=10)  # get other similar words
+# sims = glove_vectors.most_similar('man', topn=10)  # get other similar words
 
 
 preprocess_function_list = [to_lower]
@@ -88,7 +88,16 @@ oov = list(set(train_vocab_list) - set(common_vocab))
 #print(oov)
 print("(Q1-B) ",len(oov))
 
+words = set()
 with open("oovMap.json", "w") as f:
-    d = json.load()
+    dict = json.load(f)
 
+for i in dict:
+    values = dict[i]
+    for word in values:
+        words.add(word)
+
+arr = [x for x in words if x not in train_vocab_list]
+print(len(arr))
+print(arr)
 
