@@ -75,11 +75,11 @@ glove_vectors = gensim.downloader.load('word2vec-google-news-300')
 
 preprocess_function_list = [to_lower]
 vocabulary = glove_vectors.key_to_index
+# print(vocabulary["a"])
 vocab_list = list(vocabulary.keys())
 #print(vocab_list)
 for i in range(len(vocab_list)):
     vocab_list[i] = preprocess_text(vocab_list[i],preprocess_function_list)
-
 
 common_vocab = list(set(train_vocab_list) & set(vocab_list))
 #print(len(common_vocab))
