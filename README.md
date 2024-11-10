@@ -56,5 +56,11 @@ Ouput:\
 Testing model: RNN_BASE\
 testing accuracy: 0.7533
 
+Notes
+------
+1. For Part 3.5, as it is significantly different from the other parts, we have not added it to this script. The results can be seen by running sentiment_bert.ipynb in folder part_3 directly.
+2. For all the other models, it is also possible to see the training and preparation codes as well as run them directly by finding the appropriate file (e.g. sentimentRNN_updated_embeddings_with_OOV_handling.ipynb in folder part_3 for RNN_OOV). When doing so, take caution not to run the training cell unintentionally as this will take sometime.
+3. You may encounter an error saying the word2vector model file is missing. To rectify this, run load_model.py under part_1.
+
 
 
