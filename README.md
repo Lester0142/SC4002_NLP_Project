@@ -29,3 +29,31 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+
+3. Run the Basic UI to view accuracy result from the model
+```
+python main.py
+```
+* takes awhile to run, below is what the UI will look like when it is ready
+
+Example:
+
+Console:\
+Select a model type to test from the following options ('q' to exit):\
+1: RNN_BASE\
+2: RNN\
+3: RNN_OOV\
+4: LSTM\
+5: GRU\
+6: CNN\
+Enter the number corresponding to your choice:
+
+Input: 
+1
+
+Ouput:\
+Testing model: RNN_BASE\
+testing accuracy: 0.7533
+
+
+
