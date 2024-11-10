@@ -4,10 +4,14 @@ from torch.utils.data import Dataset, DataLoader
 from torch.nn.utils.rnn import pad_sequence
 import numpy as np
 import data_getter
+import json 
 
 word2vec_model = data_getter.load_restricted_w2v()
 word2vec_model_og = data_getter.load_restricted_w2v(handle_oov=False)
 word2vec_model_base = data_getter.load_w2v()
+
+with open(r"./asset/oovMap.json") as f:
+    oovMap = json.load(f)
 
 class SentimentDataset(Dataset):
     def __init__(self, dataset, word2vec_model, max_length=100):
@@ -26,7 +30,19 @@ class SentimentDataset(Dataset):
         # Convert text to embeddings
         tokens = text # Assuming text is tokenized already
         # embeddings = [self.word2vec[word] for word in tokens if word in self.word2vec]
-        embeddings = [self.word2vec.key_to_index.get(word) for word in tokens if word in self.word2vec]
+        # embeddings = [self.word2vec.key_to_index.get(word) for word in tokens if word in self.word2vec]
+        embeddings = []
+        # print(tokens)
+        for word in tokens:
+            # print("word: ", word)
+            if word in self.word2vec:
+                embeddings.append(self.word2vec.key_to_index.get(word))
+                continue
+            if word not in oovMap:
+                continue
+            for chunk in oovMap[word]:
+                # print("chunk:" , chunk)
+                embeddings.append(self.word2vec.key_to_index.get(chunk))            
         
         # Truncate sequences - will pad later
         if len(embeddings) > self.max_length:
@@ -60,7 +76,6 @@ def _collate_fn(batch):
     labels = torch.stack(labels)
     
     return embeddings, labels, mask
-
 class SentimentDataset_BASE(Dataset):
     def __init__(self, dataset, word2vec_model, max_length=100):
         self.dataset = dataset
