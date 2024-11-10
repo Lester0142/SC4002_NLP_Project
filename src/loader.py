@@ -167,54 +167,54 @@ def _collate_fn_og(batch):
 def load_dataset(batch_size, og=False, base=False):
     if base:
         # This is the training dataset
-        path_to_train_set = r"../tokenised_datasets/tokenised_train_dataset"
+        path_to_train_set = r"./tokenised_datasets/tokenised_train_dataset"
         train_dataset = load_from_disk(path_to_train_set)
         train_data = SentimentDataset_BASE(train_dataset, word2vec_model_base)
         train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True, collate_fn=_collate_fn_base)
 
         # Get the same for test and validation
-        path_to_test_set = r"../tokenised_datasets/tokenised_test_dataset"
+        path_to_test_set = r"./tokenised_datasets/tokenised_test_dataset"
         test_dataset = load_from_disk(path_to_test_set)
         test_data = SentimentDataset_BASE(test_dataset, word2vec_model_base)
         test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False, collate_fn=_collate_fn_base)
 
-        path_to_val_set = r"../tokenised_datasets/tokenised_validation_dataset"
+        path_to_val_set = r"./tokenised_datasets/tokenised_validation_dataset"
         val_dataset = load_from_disk(path_to_val_set)
         val_data = SentimentDataset_BASE(val_dataset, word2vec_model_base)
         val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False, collate_fn=_collate_fn_base)
 
     elif og:
         # This is the training dataset
-        path_to_train_set = r"../tokenised_datasets/tokenised_train_dataset"
+        path_to_train_set = r"./tokenised_datasets/tokenised_train_dataset"
         train_dataset = load_from_disk(path_to_train_set)
         train_data = SentimentDataset_OG(train_dataset, word2vec_model_og)
         train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True, collate_fn=_collate_fn_og)
 
         # Get the same for test and validation
-        path_to_test_set = r"../tokenised_datasets/tokenised_test_dataset"
+        path_to_test_set = r"./tokenised_datasets/tokenised_test_dataset"
         test_dataset = load_from_disk(path_to_test_set)
         test_data = SentimentDataset_OG(test_dataset, word2vec_model_og)
         test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False, collate_fn=_collate_fn_og)
 
-        path_to_val_set = r"../tokenised_datasets/tokenised_validation_dataset"
+        path_to_val_set = r"./tokenised_datasets/tokenised_validation_dataset"
         val_dataset = load_from_disk(path_to_val_set)
         val_data = SentimentDataset_OG(val_dataset, word2vec_model_og)
         val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False, collate_fn=_collate_fn_og)
 
 
     else:
-        path_to_train_set = r"../tokenised_datasets/tokenised_train_dataset"
+        path_to_train_set = r"./tokenised_datasets/tokenised_train_dataset"
         train_dataset = load_from_disk(path_to_train_set)
         train_data = SentimentDataset(train_dataset, word2vec_model)
         train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True, collate_fn=_collate_fn)
 
         # Get the same for test and validation
-        path_to_test_set = r"../tokenised_datasets/tokenised_test_dataset"
+        path_to_test_set = r"./tokenised_datasets/tokenised_test_dataset"
         test_dataset = load_from_disk(path_to_test_set)
         test_data = SentimentDataset(test_dataset, word2vec_model)
         test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False, collate_fn=_collate_fn)
 
-        path_to_val_set = r"../tokenised_datasets/tokenised_validation_dataset"
+        path_to_val_set = r"./tokenised_datasets/tokenised_validation_dataset"
         val_dataset = load_from_disk(path_to_val_set)
         val_data = SentimentDataset(val_dataset, word2vec_model)
         val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False, collate_fn=_collate_fn)
