@@ -32,6 +32,7 @@ pip install -r requirements.txt
 
 3. Run the Basic UI to view accuracy result from the model
 ```
+cd src
 python main.py
 ```
 * takes awhile to run, below is what the UI will look like when it is ready
