@@ -10,7 +10,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def test_accuracy(model_type):
     model, batch_size = load_model(model_type, device)
-    test_loader = load_dataset(batch_size)
+    test_loader = load_dataset(batch_size, 
+                               og=True if model_type=="RNN" else False,
+                               base=True if model_type=="RNN_BASE" else False)
     # Set the model to evaluation mode|
     model.eval()
 
@@ -44,7 +46,7 @@ if __name__ == "__main__":
 
     while True:
         # Define available model types
-        model_types = ['RNN_OOV', 'LSTM', 'GRU', 'CNN']
+        model_types = ['RNN_BASE', 'RNN', 'RNN_OOV', 'LSTM', 'GRU', 'CNN']
         
         # Display model type options to the user
         print("Select a model type to test from the following options ('q' to exit):")

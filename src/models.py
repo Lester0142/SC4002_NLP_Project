@@ -6,6 +6,89 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 word2vec_model = data_getter.load_restricted_w2v()
+word2vec_model_og = data_getter.load_restricted_w2v(handle_oov=False)
+word2vec_model_base = data_getter.load_w2v()
+
+class SentimentBaseRNN(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size, num_layers, dropout=0.2, activationfn='tanh',):
+        super(SentimentBaseRNN, self).__init__()
+        
+        # RNN layer
+        self.rnn = nn.RNN(
+            input_size, 
+            hidden_size, 
+            num_layers, 
+            batch_first=True, 
+            dropout=dropout, 
+            nonlinearity=activationfn, 
+            bias=True
+            )
+    
+        # Fully connected layer
+        self.fc = nn.Linear(hidden_size, output_size)
+
+    # Inside your model's forward method:
+    def forward(self, x, mask):
+        # Pack the padded sequence
+        lengths = mask.sum(dim=1).int()  # Compute the lengths of the sequences (number of non-padded elements)
+        packed_x = rnn_utils.pack_padded_sequence(x, lengths, batch_first=True, enforce_sorted=False)
+        
+        # Pass through the RNN
+        packed_out, hidden = self.rnn(packed_x)
+        
+        # Unpack the sequence
+        out, _ = rnn_utils.pad_packed_sequence(packed_out, batch_first=True)
+        
+        # Perform mean pooling only over the valid (non-padded) parts
+        out = (out * mask.unsqueeze(2)).sum(dim=1) / mask.sum(dim=1, keepdim=True)  # Mean pooling
+        out = self.fc(out)  # Pass through the fully connected layer
+        
+        return out
+    
+
+class SentimentOGRNN(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size, num_layers, dropout=0.2, activationfn='tanh',):
+        super(SentimentOGRNN, self).__init__()
+        self.embed_layer = nn.Embedding.from_pretrained(torch.FloatTensor(word2vec_model_og.vectors), freeze = False, padding_idx=0)
+        self.activation = nn.ReLU()
+        # RNN layer
+        self.rnn = nn.RNN(
+            input_size, 
+            hidden_size, 
+            num_layers, 
+            batch_first=True, 
+            dropout=dropout, 
+            nonlinearity=activationfn, 
+            bias=True
+            )
+    
+        # Fully connected layer
+        self.fc = nn.Linear(hidden_size, output_size)
+
+    # Inside your model's forward method:
+    def forward(self, x, mask):
+        
+        x = self.embed_layer(x)
+        # print(x)
+        # Pack the padded sequence
+        x = self.activation(x)
+        mask = (x.sum(dim=2) != 0).float()
+        # print('og mask')
+        # print(mask)
+        lengths = mask.sum(dim=1).int()  # Compute the lengths of the sequences (number of non-padded elements)
+        packed_x = rnn_utils.pack_padded_sequence(x, lengths, batch_first=True, enforce_sorted=False)
+
+        packed_out, hidden = self.rnn(packed_x)
+        
+        # Unpack the sequence
+        out, _ = rnn_utils.pad_packed_sequence(packed_out, batch_first=True)
+        
+        # Perform mean pooling only over the valid (non-padded) parts
+        out = (out * mask.unsqueeze(2)).sum(dim=1) / mask.sum(dim=1, keepdim=True)  # Mean pooling
+        # print(out)
+        out = self.fc(out)  # Pass through the fully connected layer
+        
+        return out
 
 class SentimentRNN(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, num_layers, dropout=0.2, activationfn='tanh', og = False):
@@ -224,7 +307,7 @@ class SentimentCNN(nn.Module):
 def load_model(model_type, device):
 
     if model_type.strip().upper() == "RNN":
-        model = SentimentRNN(word2vec_model.vector_size, 16, 1, 1, 0.6, og=True).to(device)
+        model = SentimentOGRNN(word2vec_model.vector_size, 16, 1, 1, 0.6).to(device)
         model.load_state_dict(torch.load('./models_weight/sentiment_rnn_1hl_16_00005.pth'))
         batch_size = 48
     elif model_type.strip().upper() == "RNN_OOV":
@@ -242,6 +325,10 @@ def load_model(model_type, device):
     elif model_type.strip().upper() == "CNN":
         model = SentimentCNN(word2vec_model.vector_size, 100, [3, 4, 5], output_size=1, dropout=0.7).to(device)
         model.load_state_dict(torch.load('./models_weight/sentiment_cnn_activation_[3, 4, 5]_0001_with_OOV.pth', map_location=torch.device('cpu')))
+        batch_size = 48
+    elif model_type.strip().upper() == "RNN_BASE":
+        model = SentimentBaseRNN(word2vec_model_og.vector_size, 32, 1, 2, 0.6).to(device)
+        model.load_state_dict(torch.load('./models_weight/sentiment_rnn_2hl_32_0001.pth'))        
         batch_size = 48
 
     return model, batch_size
